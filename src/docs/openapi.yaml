@@ -19,6 +19,54 @@ paths:
                   status:
                     type: string
                     example: ok
+  /users:
+    post:
+      summary: Registrar novo usuário
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [name, email, password]
+              properties:
+                name:
+                  type: string
+                  example: Ana Silva
+                email:
+                  type: string
+                  format: email
+                  example: ana@email.com
+                password:
+                  type: string
+                  format: password
+                  minLength: 8
+      responses:
+        "201":
+          description: Usuário criado com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user:
+                    $ref: "#/components/schemas/User"
+        "400":
+          description: Campos inválidos ou ausentes
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationError"
+        "409":
+          description: Email já cadastrado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: email already in use
   /auth/register:
     post:
       summary: Criar usuário e retornar JWT
@@ -108,4 +156,16 @@ components:
           type: string
         user:
           $ref: "#/components/schemas/User"
+    ValidationError:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              field:
+                type: string
+              message:
+                type: string
 

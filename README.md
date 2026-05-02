@@ -33,6 +33,7 @@ npm run dev
 ## Endpoints
 
 - `GET /health`: healthcheck
+- `POST /users`: registra novo usuário (retorna 201 com dados do usuário sem senha)
 - `POST /auth/register`: cria usuário e retorna JWT
 - `POST /auth/login`: login e retorna JWT
 - `GET /auth/me`: rota protegida (Bearer JWT)
