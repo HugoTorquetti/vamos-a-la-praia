@@ -41,6 +41,10 @@ npm run dev
 
 - `GET /docs`: UI do Swagger
 
+## Deploy (Vercel)
+
+Este repositório já inclui um entrypoint serverless em `api/index.js` e um `vercel.json` roteando todas as rotas para ele.
+
 ## Arquitetura (camadas)
 
 - `src/routes`: definição de rotas HTTP
