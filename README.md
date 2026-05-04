@@ -33,9 +33,23 @@ npm run dev
 ## Endpoints
 
 - `GET /health`: healthcheck
+- `GET /properties`: lista imóveis paginada (filtros: `city`, `uf`)
 - `POST /auth/register`: cria usuário e retorna JWT
 - `POST /auth/login`: login e retorna JWT
 - `GET /auth/me`: rota protegida (Bearer JWT)
+
+### Exemplo — listar imóveis
+
+```bash
+# Todos os imóveis (página 1, 10 por página)
+curl http://localhost:3000/properties
+
+# Filtrar por cidade
+curl "http://localhost:3000/properties?city=Santos"
+
+# Filtrar por cidade e UF com paginação
+curl "http://localhost:3000/properties?city=Santos&uf=SP&page=2&pageSize=5"
+```
 
 ## Swagger
 

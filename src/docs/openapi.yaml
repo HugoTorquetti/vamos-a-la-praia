@@ -19,6 +19,50 @@ paths:
                   status:
                     type: string
                     example: ok
+  /properties:
+    get:
+      summary: Listar imóveis cadastrados
+      parameters:
+        - name: page
+          in: query
+          description: Número da página (padrão 1)
+          schema:
+            type: integer
+            default: 1
+            minimum: 1
+        - name: pageSize
+          in: query
+          description: Quantidade de itens por página (padrão 10)
+          schema:
+            type: integer
+            default: 10
+            minimum: 1
+        - name: city
+          in: query
+          description: Filtrar por cidade (case-insensitive)
+          schema:
+            type: string
+            example: Santos
+        - name: uf
+          in: query
+          description: Filtrar por UF (case-insensitive)
+          schema:
+            type: string
+            example: SP
+      responses:
+        "200":
+          description: Lista de imóveis com metadados de paginação
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Property"
+                  pagination:
+                    $ref: "#/components/schemas/Pagination"
   /auth/register:
     post:
       summary: Criar usuário e retornar JWT
@@ -108,4 +152,46 @@ components:
           type: string
         user:
           $ref: "#/components/schemas/User"
+    Property:
+      type: object
+      properties:
+        _id:
+          type: string
+          example: 664a1f2e8b1c2d3e4f5a6b7c
+        title:
+          type: string
+          example: Apartamento pé na areia
+        description:
+          type: string
+          example: Vista para o mar, 2 quartos
+        city:
+          type: string
+          example: Santos
+        uf:
+          type: string
+          example: SP
+        price:
+          type: number
+          example: 350000
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+    Pagination:
+      type: object
+      properties:
+        page:
+          type: integer
+          example: 1
+        pageSize:
+          type: integer
+          example: 10
+        total:
+          type: integer
+          example: 42
+        totalPages:
+          type: integer
+          example: 5
 

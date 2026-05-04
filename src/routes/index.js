@@ -1,10 +1,12 @@
 const { registerHealthRoutes } = require("./health.routes");
 const { registerAuthRoutes } = require("./auth.routes");
+const { registerPropertiesRoutes } = require("./properties.routes");
 const { registerDocsRoutes } = require("./docs.routes");
 
 function registerRoutes(app) {
   registerHealthRoutes(app);
   registerAuthRoutes(app);
+  registerPropertiesRoutes(app);
   registerDocsRoutes(app);
 }
 
