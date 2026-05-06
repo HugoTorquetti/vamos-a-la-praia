@@ -91,7 +91,7 @@ paths:
                 $ref: "#/components/schemas/AuthResponse"
   /auth/login:
     post:
-      summary: Login e retornar JWT
+      summary: Autenticar usuário e retornar JWT
       requestBody:
         required: true
         content:
@@ -103,16 +103,34 @@ paths:
                 email:
                   type: string
                   format: email
+                  example: ana@email.com
                 password:
                   type: string
                   format: password
+                  example: SenhaForte123
       responses:
         "200":
-          description: OK
+          description: Autenticado com sucesso
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/AuthResponse"
+        "400":
+          description: Campos obrigatórios ausentes
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationError"
+        "401":
+          description: Credenciais inválidas
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: invalid credentials
   /auth/me:
     get:
       summary: Dados do usuário autenticado
@@ -152,6 +170,18 @@ components:
           type: string
         user:
           $ref: "#/components/schemas/User"
+    ValidationError:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              field:
+                type: string
+              message:
+                type: string
     Property:
       type: object
       properties:
