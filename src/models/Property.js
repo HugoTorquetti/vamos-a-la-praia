@@ -1,5 +1,11 @@
 const mongoose = require("mongoose");
 
+const VALID_UFS = [
+  "AC", "AL", "AP", "AM", "BA", "CE", "DF", "ES", "GO",
+  "MA", "MT", "MS", "MG", "PA", "PB", "PR", "PE", "PI",
+  "RJ", "RN", "RS", "RO", "RR", "SC", "SP", "SE", "TO",
+];
+
 const propertySchema = new mongoose.Schema(
   {
     title: {
@@ -9,8 +15,8 @@ const propertySchema = new mongoose.Schema(
     },
     description: {
       type: String,
+      required: true,
       trim: true,
-      default: "",
     },
     city: {
       type: String,
@@ -22,12 +28,17 @@ const propertySchema = new mongoose.Schema(
       required: true,
       trim: true,
       uppercase: true,
-      maxlength: 2,
+      enum: VALID_UFS,
     },
     price: {
       type: Number,
       required: true,
       min: 0,
+    },
+    ownerId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
     },
   },
   { timestamps: true }
@@ -35,4 +46,4 @@ const propertySchema = new mongoose.Schema(
 
 const Property = mongoose.model("Property", propertySchema);
 
-module.exports = { Property };
+module.exports = { Property, VALID_UFS };

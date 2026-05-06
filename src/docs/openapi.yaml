@@ -20,6 +20,61 @@ paths:
                     type: string
                     example: ok
   /properties:
+    post:
+      summary: Cadastrar imóvel (requer autenticação)
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [title, description, city, uf, price]
+              properties:
+                title:
+                  type: string
+                  example: Apartamento pé na areia
+                description:
+                  type: string
+                  example: Apto com vista para o mar, 2 quartos
+                city:
+                  type: string
+                  example: Santos
+                uf:
+                  type: string
+                  example: SP
+                  enum: [AC,AL,AP,AM,BA,CE,DF,ES,GO,MA,MT,MS,MG,PA,PB,PR,PE,PI,RJ,RN,RS,RO,RR,SC,SP,SE,TO]
+                price:
+                  type: number
+                  example: 350
+                  minimum: 0.01
+      responses:
+        "201":
+          description: Imóvel cadastrado com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  property:
+                    $ref: "#/components/schemas/Property"
+        "400":
+          description: Campos inválidos ou ausentes
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationError"
+        "401":
+          description: Não autenticado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Missing bearer token
     get:
       summary: Listar imóveis cadastrados
       parameters:
@@ -202,7 +257,10 @@ components:
           example: SP
         price:
           type: number
-          example: 350000
+          example: 350
+        ownerId:
+          type: string
+          example: 664a1f2e8b1c2d3e4f5a6b7d
         createdAt:
           type: string
           format: date-time
