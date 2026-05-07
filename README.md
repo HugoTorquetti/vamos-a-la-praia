@@ -34,6 +34,7 @@ npm run dev
 
 - `GET /health`: healthcheck
 - `GET /properties`: lista imóveis paginada (filtros: `city`, `uf`)
+- `POST /properties`: cadastra imóvel — **requer Bearer JWT**
 - `POST /auth/register`: cria usuário e retorna JWT
 - `POST /auth/login`: login e retorna JWT
 - `GET /auth/me`: rota protegida (Bearer JWT)
@@ -49,6 +50,15 @@ curl "http://localhost:3000/properties?city=Santos"
 
 # Filtrar por cidade e UF com paginação
 curl "http://localhost:3000/properties?city=Santos&uf=SP&page=2&pageSize=5"
+```
+
+### Exemplo — cadastrar imóvel
+
+```bash
+curl -X POST http://localhost:3000/properties \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer <token>" \
+  -d '{"title":"Apto pé na areia","description":"Vista pro mar","city":"Santos","uf":"SP","price":350}'
 ```
 
 ## Swagger

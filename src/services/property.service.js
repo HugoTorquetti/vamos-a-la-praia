@@ -28,6 +28,11 @@ const propertyService = {
       },
     };
   },
+
+  createProperty: async ({ title, description, city, uf, price, ownerId }) => {
+    const property = await Property.create({ title, description, city, uf, price, ownerId });
+    return property;
+  },
 };
 
 module.exports = { propertyService };
